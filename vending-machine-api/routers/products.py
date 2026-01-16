@@ -10,7 +10,7 @@ import schemas
 router = APIRouter(
     prefix="/products",
     tags=["products"],
-    responses={404: {"description": "Not found"}},
+
 )
 
 @router.get("/", response_model=List[schemas.Product])
