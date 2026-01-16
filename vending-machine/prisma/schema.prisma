@@ -14,9 +14,60 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String?  @unique
-  role      String   @default("USER")
-  createdAt DateTime @default(now())
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  phoneNumber         String               
+  email               String?              @unique
+  role                String               @default("USER")
+  createdAt           DateTime             @default(now())
+  paymentTransactions PaymentTransaction[]
+}
+
+model Product {
+  id               Int               @id @default(autoincrement())
+  name             String
+  price            Int
+  quantity         Int               @default(0) 
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  transactionItems TransactionItem[] 
+}
+
+
+model TransactionItem {
+  id                   Int                @id @default(autoincrement())
+  quantity             Int                
+  priceAtPurchase      Int                
+  
+  productId            Int
+  product              Product            @relation(fields: [productId], references: [id])
+  
+  paymentTransactionId Int
+  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
+}
+
+model PaymentTransaction {
+  id            Int               @id @default(autoincrement())
+  paymentAmount Int               
+  changeAmount  Int              
+  createdAt     DateTime          @default(now())
+  
+  userId        Int
+  user          User              @relation(fields: [userId], references: [id])
+  
+  transactionItems TransactionItem[] 
+  paymentInputs    PaymentInput[]    
+}
+
+model PaymentInput {
+  id                   Int                @id @default(autoincrement())
+  type                 CashType
+  amount               Int
+  paymentTransactionId Int
+  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
+}
+
+enum CashType {
+  COIN
+  BILL
 }
