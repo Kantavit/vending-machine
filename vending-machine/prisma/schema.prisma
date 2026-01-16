@@ -15,21 +15,21 @@ datasource db {
 
 model User {
   id                  Int                  @id @default(autoincrement())
-  name                String
-  phoneNumber         String               
-  email               String?              @unique
-  role                String               @default("USER")
+  name                String               @db.VarChar(500)                
+  phoneNumber         String               @db.VarChar(10)
+  email               String?              @unique @db.VarChar(100)
+  role                String               @default("USER") @db.VarChar(200)
   createdAt           DateTime             @default(now())
   paymentTransactions PaymentTransaction[]
 }
 
 model Product {
   id               Int               @id @default(autoincrement())
-  name             String
+  name             String            @db.VarChar(500)
   price            Int
   quantity         Int               @default(0) 
   createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  updatedAt        DateTime?         @updatedAt
   transactionItems TransactionItem[] 
 }
 
