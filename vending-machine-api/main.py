@@ -5,7 +5,7 @@ import models
 import database
 import os
 import socket
-from routers import users
+from routers import users, products, payments, payments_transaction, transactions
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -18,6 +18,10 @@ app = FastAPI(lifespan=lifespan)
 
 # Include routers
 app.include_router(users.router)
+app.include_router(products.router)
+app.include_router(payments.router)
+app.include_router(payments_transaction.router)
+app.include_router(transactions.router)
 
 # Initialize Redis connection
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
