@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import { ProductType } from "../types/product.type";
+import { PRODUCT } from "./use-product-query";
 
 interface CartState {
-  productList: ProductType[];
+  productList: PRODUCT[];
 }
 
 interface CartStore {
   state: CartState;
-  setProductList: (data: ProductType[]) => void;
+  setProductList: (data: PRODUCT[]) => void;
 }
 
 export const useCartStore = create<CartStore>((set) => ({
