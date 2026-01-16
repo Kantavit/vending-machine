@@ -4,6 +4,11 @@ services:
     build:
       context: .
       dockerfile: docker/vending-machine/Dockerfile
+      target: dev
+    volumes:
+      - ./vending-machine:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "3000:3000"
     env_file:

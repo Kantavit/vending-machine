@@ -25,6 +25,15 @@ COPY vending-machine/ .
 
 RUN corepack enable pnpm && pnpm run build
 
+# Development image, copy all the files and run next
+FROM base AS dev
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY vending-machine/ .
+# Enable pnpm
+RUN corepack enable pnpm
+CMD ["pnpm", "run", "dev"]
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
