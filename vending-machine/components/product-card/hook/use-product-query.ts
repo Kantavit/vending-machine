@@ -1,14 +1,6 @@
 import axiosClient from "@/api/axios-client";
 import { useQuery } from "@tanstack/react-query";
-
-export interface PRODUCT {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { PRODUCT } from "../types/product.type";
 
 export const useProductQuery = () => {
   const productQuery = useQuery({

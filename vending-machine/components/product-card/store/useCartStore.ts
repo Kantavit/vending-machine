@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { PRODUCT } from "@/components/product-card/hook/use-product-query";
+import { PRODUCT } from "../types/product.type";
 
 export interface CartItem extends PRODUCT {
   cartQuantity: number;
