@@ -1,5 +1,5 @@
 import React from "react";
-import { PRODUCT } from "@/components/product-card/hook/use-product-query";
+import { PRODUCT } from "./types/product.type";
 import { useCartStore } from "@/components/product-card/store/useCartStore";
 
 interface ProductCardProps {
