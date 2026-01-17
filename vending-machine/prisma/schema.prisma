@@ -13,16 +13,6 @@ datasource db {
   provider = "mysql"
 }
 
-model User {
-  id                  Int                  @id @default(autoincrement())
-  name                String               @db.VarChar(500)                
-  phoneNumber         String               @db.VarChar(10)
-  email               String?              @unique @db.VarChar(100)
-  role                String               @default("USER") @db.VarChar(200)
-  createdAt           DateTime             @default(now())
-  paymentTransactions PaymentTransaction[]
-}
-
 model Product {
   id               Int               @id @default(autoincrement())
   name             String            @db.VarChar(500)
@@ -30,44 +20,18 @@ model Product {
   quantity         Int               @default(0) 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime?         @updatedAt
-  transactionItems TransactionItem[] 
 }
 
-
-model TransactionItem {
-  id                   Int                @id @default(autoincrement())
-  quantity             Int                
-  priceAtPurchase      Int                
-  
-  productId            Int
-  product              Product            @relation(fields: [productId], references: [id])
-  
-  paymentTransactionId Int
-  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
-}
-
-model PaymentTransaction {
-  id            Int               @id @default(autoincrement())
-  paymentAmount Int               
-  changeAmount  Int              
-  createdAt     DateTime          @default(now())
-  
-  userId        Int
-  user          User              @relation(fields: [userId], references: [id])
-  
-  transactionItems TransactionItem[] 
-  paymentInputs    PaymentInput[]    
-}
-
-model PaymentInput {
-  id                   Int                @id @default(autoincrement())
-  type                 CashType
-  amount               Int
-  paymentTransactionId Int
-  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
-}
-
-enum CashType {
+enum MoneyType {
   COIN
   BILL
+}
+
+model Money {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(100)
+  type      MoneyType
+  amount    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?  @updatedAt
 }
