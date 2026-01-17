@@ -61,3 +61,24 @@ async def delete_product(product_id: int, db: AsyncSession = Depends(database.ge
     
     await db.delete(db_product)
     await db.commit()
+
+@router.patch("/", response_model=List[schemas.Product])
+async def update_products_quantity(products_update: List[schemas.ProductQuantityUpdate], db: AsyncSession = Depends(database.get_db)):
+    updated_products = []
+    for product_update in products_update:
+        result = await db.execute(select(models.Product).where(models.Product.id == product_update.id))
+        db_product = result.scalar_one_or_none()
+        
+        if db_product is None:
+            raise HTTPException(status_code=404, detail=f"Product with id {product_update.id} not found")
+        
+        if db_product.quantity < product_update.quantity:
+            raise HTTPException(status_code=400, detail=f"Not enough quantity for product {product_update.id}")
+        db_product.quantity -= product_update.quantity
+        updated_products.append(db_product)
+    
+    await db.commit()
+    for product in updated_products:
+        await db.refresh(product)
+    
+    return updated_products

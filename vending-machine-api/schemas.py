@@ -1,28 +1,7 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
-
-class UserBase(BaseModel):
-    name: str
-    phoneNumber: Optional[str] = None
-    email: Optional[str] = None
-    role: str = "USER"
-
-class UserCreate(UserBase):
-    pass
-
-class UserUpdate(BaseModel):
-    name: Optional[str] = None
-    phoneNumber: Optional[str] = None
-    email: Optional[str] = None
-    role: Optional[str] = None
-
-class User(UserBase):
-    id: int
-    createdAt: datetime
-
-    class Config:
-        from_attributes = True
+from enum import Enum
 
 class ProductBase(BaseModel):
     name: str
@@ -37,6 +16,10 @@ class ProductUpdate(BaseModel):
     price: Optional[int] = None
     quantity: Optional[int] = None
 
+class ProductQuantityUpdate(BaseModel):
+    id: int
+    quantity: int
+
 class Product(ProductBase):
     id: int
     createdAt: datetime
@@ -45,53 +28,40 @@ class Product(ProductBase):
     class Config:
         from_attributes = True
 
-from enum import Enum
-
-class CashType(str, Enum):
+class MoneyType(str, Enum):
     COIN = "COIN"
     BILL = "BILL"
 
-class PaymentInputBase(BaseModel):
-    type: CashType
+class MoneyBase(BaseModel):
+    name: str
+    type: MoneyType
     amount: int
-    paymentTransactionId: int
 
-class PaymentInputCreate(PaymentInputBase):
+class MoneyCreate(MoneyBase):
     pass
 
-class PaymentInput(PaymentInputBase):
-    id: int
+class MoneyUpdate(BaseModel):
+    name: str
+    amount: int
 
-    class Config:
-        from_attributes = True
-
-class PaymentTransactionBase(BaseModel):
-    paymentAmount: int
-    changeAmount: int
-    userId: int
-
-class PaymentTransactionCreate(PaymentTransactionBase):
-    pass
-
-class PaymentTransaction(PaymentTransactionBase):
+class Money(MoneyBase):
     id: int
     createdAt: datetime
-    # paymentInputs: list[PaymentInput] = [] 
+    updatedAt: Optional[datetime]
 
     class Config:
         from_attributes = True
 
-class TransactionItemBase(BaseModel):
-    quantity: int
-    priceAtPurchase: int
-    productId: int
-    paymentTransactionId: int
+class MoneyChangeRequest(BaseModel):
+    change_amount: int
 
-class TransactionItemCreate(TransactionItemBase):
-    pass
-
-class TransactionItem(TransactionItemBase):
+class ChangeItem(BaseModel):
     id: int
+    name: str
+    type: MoneyType
+    amount: int
 
-    class Config:
-        from_attributes = True
+class MoneyChangeResponse(BaseModel):
+    changesTotal: int
+    changeMoney: List[ChangeItem]
+

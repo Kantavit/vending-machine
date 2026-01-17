@@ -5,7 +5,7 @@ import models
 import database
 import os
 import socket
-from routers import users, products, payments, payments_transaction, transactions
+from routers import products, moneys
 from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
@@ -32,11 +32,8 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(users.router)
 app.include_router(products.router)
-app.include_router(payments.router)
-app.include_router(payments_transaction.router)
-app.include_router(transactions.router)
+app.include_router(moneys.router)
 
 # Initialize Redis connection
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
