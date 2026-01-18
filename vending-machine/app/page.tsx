@@ -12,7 +12,7 @@ export default function Home() {
           Blue Vending
         </h1>
         <p className="mt-4 text-2xl font-semibold text-zinc-600 dark:text-zinc-400">
-          A Unicorn company
+          A Unicorn company selling drinks
         </p>
         <div className="mt-10">
           <button
