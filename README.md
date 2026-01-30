@@ -2,6 +2,29 @@
 
 A Unicorn company selling drinks.
 
+## Features
+
+- **Interactive Product Catalog**: Browse available drinks with real-time stock availability.
+- **Shopping Cart**: Add multiple items to your cart, review selections, and proceed to checkout.
+- **Simulated Payment System**:
+  - Insert simulated cash (coins and banknotes).
+  - Real-time calculation of total price and remaining balance.
+- **Smart Change Dispenser**:
+  - Automatically calculates the optimal change to return based on the machine's available cash inventory (using a greedy algorithm).
+  - Updates money stock in the backend upon purchase.
+- **Inventory Management**:
+  - Real-time product stock updates.
+  - API endpoints for managing products and cash reserves.
+
+
+## Tech Stack
+
+- **Frontend**: Next.js
+- **Backend**: FastAPI
+- **Database**: MySQL
+- **Cache**: Redis
+- **Containerization**: Docker
+
 ## Setting up the project
 
 ### 1. Clone the repository
